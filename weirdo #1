@@ -1,0 +1,70 @@
+
+public class Design {
+
+	public static void main(String[] args) {	
+		design();
+	}
+
+	private static void design() {
+
+		int times = 5;
+		
+		for(int i = times ; i>0 ; i--){
+			
+			int temp = i%2;
+			
+			for(int j = 0 ; j<i ; j++ ){
+					
+				if(temp == 1){
+					
+					//start of space suck 
+					
+					if((times - i)%2 == 0 && j == 0 ){
+							
+						for(int z = i ; z <times ; z++){
+								
+							System.out.print(" ");
+						}//space - for loop
+					}//space -  if stmnt 
+						
+					System.out.print("* ");
+										
+				}
+			}//end of inner loop
+				
+			
+			System.out.println();
+				
+		}//main loop
+			
+		
+////second half
+		
+		
+		for(int i = 2 ; i<(times +1) ; i++){
+			
+			for(int j = 0 ; j<i ; j++ ){
+				
+				if((i%2) == 1){
+					
+//start of space suck 
+					
+					if((times - i)%2 == 0 && j == 0 ){
+							
+						for(int z = i ; z <times ; z++){
+								
+							System.out.print(" ");
+						}//space - for loop
+					}//space -  if stmnt 
+					
+					
+					System.out.print("* ");
+				
+				}
+			}//end of inner loop
+			System.out.println();
+			
+		}//main for loop		
+	}
+	
+} 
