@@ -1,0 +1,128 @@
+package PDF_to_Text;
+
+	import java.awt.Dimension;
+	import java.awt.Toolkit;
+	import java.awt.event.ActionEvent;
+	import java.awt.event.ActionListener;
+	import java.io.File;
+	import javax.swing.ImageIcon;
+	import javax.swing.JButton;
+	import javax.swing.JFrame;
+	import javax.swing.JPanel;
+	import javax.swing.JScrollPane;
+	import javax.swing.JTextArea;
+	import javax.swing.JTextField;
+	import org.apache.pdfbox.pdmodel.PDDocument;
+	import org.apache.pdfbox.util.PDFTextStripper;
+	import org.apache.pdfbox.util.PDFTextStripperByArea;
+
+	public class PDF_2_Text extends JFrame{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public static  String location;
+		
+		static JTextField field = null;
+		static JPanel panel = null; 
+		static JTextArea area = null;
+		static JScrollPane scroll = null;
+		static PDDocument document = null;
+		
+		public PDF_2_Text(){
+			
+			 
+			this.setVisible(true);
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			this.setTitle("$20 Billion PDF to Text Viewer");
+			ImageIcon icon = new ImageIcon("src/resources/IconImage.jpg");
+			this.setIconImage(icon.getImage());
+			
+			// get the dimession of the screen
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Dimension dim = tk.getScreenSize();
+			int x = ((dim.width/2) - (this.getWidth()/2) );
+			int y = ((dim.height/2) - (this.getHeight()/2) );
+			this.setSize(600	, 400);
+			this.setResizable(true);
+			this.setLocation(x, y);
+			this.setResizable(true);		
+			
+			/////////////////////adding panel to frame///////////////////////////
+			panel = new JPanel();	
+			this.add(panel);
+			panel.setToolTipText("hehehehe...");
+			
+			/////////////////////adding button////////////////////////////////	
+			field = new JTextField(50);
+			field.setToolTipText("Type here hoss!");
+			panel.add(field);
+			 
+			JButton button = new JButton("Show Text");
+			panel.add(button);
+			button.setToolTipText("Click on it tomorrow!");
+			button.addActionListener(new ActionListener(){
+
+		    	
+				public void actionPerformed(ActionEvent e) {
+					
+					try{
+						
+						if(e.getSource() == button){
+							String textTyped = field.getText();
+							text();	
+							showTheMagic(textTyped);
+						}
+					}catch(NullPointerException e1){
+						e1.printStackTrace();
+					}
+				}
+		    	
+			});
+		    
+			
+		}////////////////end of constructor/////////////////////
+		
+		
+		public static void text(){
+
+			area = new JTextArea(50, 100);
+			area.setVisible(true);
+			area.setToolTipText("What? You're sleeping now?");
+			panel.add(area);
+			scroll = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			panel.add(scroll);
+		}
+		
+		
+
+		public static void showTheMagic(String fl){
+			
+			
+			try {
+				
+				File file = new File(fl);
+				document = PDDocument.load(file);
+			    
+				if (!document.isEncrypted()) {
+					PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+					stripper.setSortByPosition(true);
+					PDFTextStripper Tstripper = new PDFTextStripper();
+					String st = Tstripper.getText(document);
+					area.setText(st);
+					area.setLineWrap(true);
+					document.close();
+			    
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		
+		public static void main(String[] args) {
+			new PDF_2_Text();
+		}
+			
+	}
